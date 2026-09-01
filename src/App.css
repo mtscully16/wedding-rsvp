@@ -218,6 +218,12 @@ button:hover {
     line-height: 1.1;
   }
 
+  .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+}
+
   .banner-image {
     aspect-ratio: 2/1;
   }
