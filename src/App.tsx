@@ -89,7 +89,9 @@ if (submitted) {
           <p className="event-info">
             Saturday, June 12 2027
             <br />
-            Meine Addresse ist...
+            ArcheHof Schlickenrieder
+            <br />
+            Markweg 50, 83624
             <br />
             Otterfing, Germany
           </p>
