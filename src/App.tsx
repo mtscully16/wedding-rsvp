@@ -24,6 +24,8 @@ const kidNames = Array.from(
 
 const response = {
   name: formData.get("name") as string,
+ email: formData.get("email") as string,
+
   attending: formData.get("attending") === "yes",
 
   bringing_plus_one:
@@ -107,6 +109,16 @@ if (submitted) {
               required
             />
           </label>
+
+          <label>
+  Your Email
+  <input
+    type="email"
+    name="email"
+    placeholder="you@example.com"
+    required
+  />
+</label>
 
          <fieldset>
   <legend>Will you be attending?</legend>

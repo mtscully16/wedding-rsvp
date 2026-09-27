@@ -7,6 +7,7 @@ type RSVP = {
   id: string;
   created_at: string;
   name: string;
+  email: string;
   attending: boolean;
   bringing_plus_one: boolean | null;
   plus_one_name: string | null;
@@ -150,6 +151,7 @@ function Admin() {
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Email</th>
                 <th>Attending</th>
                 <th>+1</th>
                 <th>+1 Name</th>
@@ -163,6 +165,8 @@ function Admin() {
               {rsvps.map((rsvp) => (
                 <tr key={rsvp.id}>
                   <td>{rsvp.name}</td>
+
+                  <td>{rsvp.email}</td>
 
                   <td>
                     {rsvp.attending ? "Yes" : "No"}

@@ -73,6 +73,7 @@ legend {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="number"],
 textarea {
   width: 100%;
@@ -249,6 +250,7 @@ button:hover {
   }
 
   input[type="text"],
+  input[type="email"],
   input[type="number"],
   textarea {
     font-size: 16px;
