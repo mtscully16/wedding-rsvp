@@ -119,6 +119,41 @@ button:hover {
   background: #444;
 }
 
+.language-switch {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.language-switch .language-button {
+  width: auto;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid #222;
+  border-radius: 999px;
+  background: transparent;
+  color: #222;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.language-switch .language-button.active {
+  background: #222;
+  color: white;
+}
+
+.language-switch .language-button:hover {
+  background: #444;
+  color: white;
+}
+
+.language-switch .language-button:focus-visible {
+  outline: 2px solid #222;
+  outline-offset: 3px;
+}
+
 .confirmation {
   text-align: center;
 }
@@ -258,6 +293,14 @@ button:hover {
 
   button {
     width: 100%;
+  }
+
+  .language-switch {
+    justify-content: center;
+  }
+
+  .language-switch .language-button {
+    width: auto;
   }
 }
 

@@ -2,7 +2,90 @@ import { useState } from "react";
 import "./App.css";
 import { supabase } from "./supabase";
 
+const translations = {
+  en: {
+    invited: "You're invited to",
+    title: "Jenny and Mark's Wedding",
+    date: "Saturday, June 12, 2027",
+    location: "Otterfing, Germany",
+    name: "Your Name",
+    namePlaceholder: "Your Full Name",
+    email: "Your Email",
+    emailPlaceholder: "you@example.com",
+    attending: "Will you be attending?",
+    yes: "Yes",
+    no: "No",
+    plusOne: "Will you be bringing a +1?",
+    plusOneName: "+1 Name",
+    plusOnePlaceholder: "Guest's Full Name",
+    bringingKids: "Will you be bringing children?",
+    howManyKids: "How many kids?",
+    kidNames: "What are their names?",
+    child: "Child",
+    childPlaceholder: "Full Name Here",
+    notes: "Notes",
+    notesPlaceholder: "Dietary restrictions, questions, etc.",
+    submit: "Submit RSVP",
+    thankYou: "Thank you!",
+    received: "Your RSVP has been received.",
+    submitError: "There was a problem submitting your RSVP.",
+    photoAlt: "Jenny and Mark",
+  },
+  de: {
+    invited: "Ihr seid eingeladen zur",
+    title: "Hochzeit von Jenny und Mark",
+    date: "Samstag, 12. Juni 2027",
+    location: "Otterfing, Deutschland",
+    name: "Dein Name",
+    namePlaceholder: "Vor- und Nachname",
+    email: "Deine E-Mail-Adresse",
+    emailPlaceholder: "du@beispiel.de",
+    attending: "Wirst du an unserer Hochzeit teilnehmen?",
+    yes: "Ja",
+    no: "Nein",
+    plusOne: "Bringst du eine Begleitperson (+1) mit?",
+    plusOneName: "Name deiner Begleitperson",
+    plusOnePlaceholder: "Vor- und Nachname",
+    bringingKids: "Bringst du Kinder mit?",
+    howManyKids: "Wie viele Kinder?",
+    kidNames: "Wie heißen die Kinder?",
+    child: "Kind",
+    childPlaceholder: "Vor- und Nachname",
+    notes: "Anmerkungen",
+    notesPlaceholder: "Ernährungswünsche, Fragen usw.",
+    submit: "Antwort absenden",
+    thankYou: "Vielen Dank!",
+    received: "Deine Rückmeldung wurde gespeichert.",
+    submitError: "Beim Absenden deiner Rückmeldung ist ein Problem aufgetreten.",
+    photoAlt: "Jenny und Mark",
+  },
+};
+
 function App() {
+  const [language, setLanguage] = useState<"en" | "de">("en");
+  const t = translations[language];
+  const languageSwitch = (
+    <div className="language-switch">
+      <button
+        type="button"
+        lang="en"
+        className={`language-button ${language === "en" ? "active" : ""}`}
+        onClick={() => setLanguage("en")}
+        aria-pressed={language === "en"}
+      >
+        English
+      </button>
+      <button
+        type="button"
+        lang="de"
+        className={`language-button ${language === "de" ? "active" : ""}`}
+        onClick={() => setLanguage("de")}
+        aria-pressed={language === "de"}
+      >
+        Deutsch
+      </button>
+    </div>
+  );
   const [submitted, setSubmitted] = useState(false);
 const [bringingPlusOne, setBringingPlusOne] = useState(false);
 const [bringingKids, setBringingKids] = useState(false);
@@ -55,7 +138,7 @@ const { error } = await supabase
 
 if (error) {
   console.error("Error saving RSVP:", error);
-  alert("There was a problem submitting your RSVP.");
+  alert(t.submitError);
   return;
 }
 
@@ -64,64 +147,66 @@ setSubmitted(true);
 
 if (submitted) {
   return (
-    <main className="page">
+    <main className="page" lang={language}>
       <div className="card confirmation">
-        <h1>Thank you!</h1>
-        <p>Your RSVP has been received.</p>
+        {languageSwitch}
+        <h1>{t.thankYou}</h1>
+        <p>{t.received}</p>
       </div>
     </main>
   );
 }
 
   return (
-    <main className="page">
+    <main className="page" lang={language}>
       <div className="card">
+        {languageSwitch}
 
 <img
     src="/markjennyluna_banner.jpg"
-    alt="Jenny and Mark"
+    alt={t.photoAlt}
     className="banner-image"
   />
 
         <header className="event-header">
-          <p className="eyebrow">You're invited to</p>
+          <p className="eyebrow">{t.invited}</p>
 
-          <h1>Jenny and Mark's Wedding</h1>
+          <h1>{t.title}</h1>
 
           <p className="event-info">
-            Saturday, June 12 2027
+            {t.date}
             <br />
             ArcheHof Schlickenrieder
             <br />
             Markweg 50, 83624
             <br />
-            Otterfing, Germany
+            {t.location}
           </p>
         </header>
 
         <form onSubmit={handleSubmit}>
           <label>
-            Your Name
+            {t.name}
             <input
               type="text"
               name="name"
-              placeholder="Your Full Name"
+              placeholder={t.namePlaceholder}
               required
             />
           </label>
 
           <label>
-  Your Email
+  {t.email}
   <input
     type="email"
     name="email"
-    placeholder="you@example.com"
+    placeholder={t.emailPlaceholder}
     required
   />
 </label>
 
          <fieldset>
-  <legend>Will you be attending?</legend>
+  <legend>{t.attending}</legend>
 
   <label className="radio-option">
     <input
@@ -131,7 +216,7 @@ if (submitted) {
       required
       onChange={() => setAttending("yes")}
     />
-    Yes
+    {t.yes}
   </label>
 
   <label className="radio-option">
@@ -146,7 +231,7 @@ if (submitted) {
         setNumberOfKids(0);
       }}
     />
-    No
+    {t.no}
   </label>
 </fieldset>
 
@@ -154,7 +239,7 @@ if (submitted) {
   <>
 
 <fieldset>
-  <legend>Will you be bringing a +1?</legend>
+  <legend>{t.plusOne}</legend>
 
   <label className="radio-option">
     <input
@@ -164,7 +249,7 @@ if (submitted) {
       required
       onChange={() => setBringingPlusOne(true)}
     />
-    Yes
+    {t.yes}
   </label>
 
   <label className="radio-option">
@@ -174,24 +259,24 @@ if (submitted) {
       value="no"
       onChange={() => setBringingPlusOne(false)}
     />
-    No
+    {t.no}
   </label>
 </fieldset>
 
 {bringingPlusOne && (
   <label>
-    +1 Name
+    {t.plusOneName}
     <input
       type="text"
       name="plusOneName"
-      placeholder="Guest's Full Name"
+      placeholder={t.plusOnePlaceholder}
       required
     />
   </label>
 )}
 
           <fieldset>
-  <legend>Will you be bringing children?</legend>
+  <legend>{t.bringingKids}</legend>
 
   <label className="radio-option">
     <input
@@ -203,7 +288,7 @@ if (submitted) {
         setBringingKids(true);
       }}
     />
-    Yes
+    {t.yes}
   </label>
 
   <label className="radio-option">
@@ -216,14 +301,14 @@ if (submitted) {
         setNumberOfKids(0);
       }}
     />
-    No
+    {t.no}
   </label>
 </fieldset>
 
 {bringingKids && (
   <>
     <fieldset>
-      <legend>How many kids?</legend>
+      <legend>{t.howManyKids}</legend>
 
       <div className="number-options">
         {[1, 2, 3, 4, 5].map((number) => (
@@ -244,16 +329,16 @@ if (submitted) {
     {numberOfKids > 0 && (
       <div className="kid-names">
         <p className="section-label">
-          What are their names?
+          {t.kidNames}
         </p>
 
         {Array.from({ length: numberOfKids }, (_, index) => (
           <label key={index}>
-            Child {index + 1}
+            {t.child} {index + 1}
             <input
               type="text"
               name={`kidName${index + 1}`}
-              placeholder={`Full Name Here`}
+              placeholder={t.childPlaceholder}
               required
             />
           </label>
@@ -267,30 +352,30 @@ if (submitted) {
 )}
 
           <label>
-            Notes
+            {t.notes}
             <textarea
               name="notes"
-              placeholder="Dietary restrictions, questions, etc."
+              placeholder={t.notesPlaceholder}
             />
           </label>
 
           <button type="submit">
-            Submit RSVP
+            {t.submit}
           </button>
         </form>
 
 <div className="photo-gallery">
-  <img src="/syssifuss.jpg" alt="Jenny and Mark" />
-  <img src="/BigBrain.jpg" alt="Jenny and Mark" />
-  <img src="/Surprised.jpg" alt="Jenny and Mark" />
+  <img src="/syssifuss.jpg" alt={t.photoAlt} />
+  <img src="/BigBrain.jpg" alt={t.photoAlt} />
+  <img src="/Surprised.jpg" alt={t.photoAlt} />
 
-   <img src="/AngryVesper.jpg" alt="Jenny and Mark" />
-  <img src="/Hugging.jpg" alt="Jenny and Mark" />
-  <img src="/LunaTico.jpg" alt="Jenny and Mark" />
+   <img src="/AngryVesper.jpg" alt={t.photoAlt} />
+  <img src="/Hugging.jpg" alt={t.photoAlt} />
+  <img src="/LunaTico.jpg" alt={t.photoAlt} />
 
-  <img src="/Curious.jpg" alt="Jenny and Mark" />
-  <img src="/basti.jpg" alt="Jenny and Mark" />
-  <img src="/littleBigMan.jpg" alt="Jenny and Mark" />
+  <img src="/Curious.jpg" alt={t.photoAlt} />
+  <img src="/basti.jpg" alt={t.photoAlt} />
+  <img src="/littleBigMan.jpg" alt={t.photoAlt} />
 </div>
 
       </div>
